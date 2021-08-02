@@ -9,11 +9,11 @@ import PackageDescription
 func tidyVersion() -> [String] {
     let PWD = (#filePath as NSString).deletingLastPathComponent
     let VERSION_FILE = NSString.path(withComponents: [PWD, "Sources", "CLibTidy", "version.txt"])
-    var CONTENTS:[String]
-    do {
-        CONTENTS = try! String(contentsOfFile: VERSION_FILE).components(separatedBy: "\n")
+    if let CONTENTS = try? String(contentsOfFile: VERSION_FILE).components(separatedBy: "\n") {
+        return CONTENTS
     }
-    return CONTENTS
+
+    return ["5.0.0", "2021/01/01"]
 }
 
 
@@ -56,8 +56,8 @@ let package = Package(
             , sources: ["src"]
             , publicHeadersPath: "include"
             , cSettings: [
-                .define("LIBTIDY_VERSION", to: "\"5.4.3\"", nil),
-                .define("RELEASE_DATE", to: "\"2015-11-11\"", nil)
+                .define("LIBTIDY_VERSION", to: "\"\(tidyVersion()[0])\"", nil),
+                .define("RELEASE_DATE", to: "\"\(tidyVersion()[1])\"", nil)
             ]
         ),
         
