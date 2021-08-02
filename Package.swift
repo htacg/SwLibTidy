@@ -6,12 +6,16 @@ import PackageDescription
 
 
 // Get the values we need to populate the LIBTIDY_VERSION and RELEASE_DATE macros later.
-let PWD = (#filePath as NSString).deletingLastPathComponent
-let VERSION_FILE = NSString.path(withComponents: [PWD, "Sources", "CLibTidy", "version.txt"])
-var CONTENTS:[String]
-do {
-    CONTENTS = try String(contentsOfFile: VERSION_FILE).components(separatedBy: "\n")
+func tidyVersion() -> [String] {
+    let PWD = (#filePath as NSString).deletingLastPathComponent
+    let VERSION_FILE = NSString.path(withComponents: [PWD, "Sources", "CLibTidy", "version.txt"])
+    var CONTENTS:[String]
+    do {
+        CONTENTS = try! String(contentsOfFile: VERSION_FILE).components(separatedBy: "\n")
+    }
+    return CONTENTS
 }
+
 
 let package = Package(
     name: "SwLibTidy",
@@ -52,8 +56,8 @@ let package = Package(
             , sources: ["src"]
             , publicHeadersPath: "include"
             , cSettings: [
-                .define("LIBTIDY_VERSION", to: "\"\(CONTENTS[0])\"", nil),
-                .define("RELEASE_DATE", to: "\"\(CONTENTS[1])\"", nil)
+                .define("LIBTIDY_VERSION", to: "\"\(tidyVersion()[0])\"", nil),
+                .define("RELEASE_DATE", to: "\"\(tidyVersion()[1])\"", nil)
             ]
         ),
         
