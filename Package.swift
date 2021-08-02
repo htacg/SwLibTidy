@@ -56,8 +56,8 @@ let package = Package(
             , sources: ["src"]
             , publicHeadersPath: "include"
             , cSettings: [
-                .define("LIBTIDY_VERSION", to: "\"\(tidyVersion()[0])\"", nil),
-                .define("RELEASE_DATE", to: "\"\(tidyVersion()[1])\"", nil)
+                .define("LIBTIDY_VERSION", to: "\"5.4.3\"", nil),
+                .define("RELEASE_DATE", to: "\"2015-11-11\"", nil)
             ]
         ),
         
